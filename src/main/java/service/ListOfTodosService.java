@@ -1,6 +1,7 @@
 package service;
 
-import dao.TodosDAO;
+import dao.ListsOfTodosDAO;
+import models.ListsOfTodos;
 import models.Todos;
 import org.hibernate.Session;
 import utils.SessionUtil;
@@ -8,60 +9,57 @@ import utils.SessionUtil;
 import java.sql.SQLException;
 import java.util.List;
 
-public class TodosService extends SessionUtil implements TodosDAO {
+public class ListOfTodosService extends SessionUtil implements ListsOfTodosDAO {
     @Override
-    public void add(Todos todo) throws SQLException {
+    public void add(ListsOfTodos list) throws SQLException {
         openTransactionSession();
 
         Session session = getSession();
-        session.save(todo);
+        session.save(list);
 
         closeTransactionSession();
-
     }
 
     @Override
-    public List<Todos> getAll() throws SQLException {
+    public List<ListsOfTodos> getAll() throws SQLException {
         openTransactionSession();
 
         Session session = getSession();
-        List<Todos> result = session.createQuery("from Todos", Todos.class).list();
+        List<ListsOfTodos> result = session.createQuery("from ListsOfTodos", ListsOfTodos.class).list();
 
         closeTransactionSession();
         return result;
     }
 
     @Override
-    public Todos getById(int id) throws SQLException {
+    public ListsOfTodos getById(int id) throws SQLException {
         openTransactionSession();
 
         Session session = getSession();
-        Todos todo = (Todos) session.get(Todos.class, id);
+        ListsOfTodos list = (ListsOfTodos) session.get(ListsOfTodos.class, id);
 
         closeTransactionSession();
-        return todo;
+        return list;
     }
 
     @Override
-    public void update(Todos todo) throws SQLException {
+    public void update(ListsOfTodos list) throws SQLException {
         openTransactionSession();
 
         Session session = getSession();
-        session.update(todo);
+        session.update(list);
 
         closeTransactionSession();
-
     }
 
     @Override
-    public void remove(Todos todo) throws SQLException {
+    public void remove(ListsOfTodos list) throws SQLException {
         openTransactionSession();
 
         Session session = getSession();
-        session.remove(todo);
+        session.remove(list);
 
         closeTransactionSession();
 
     }
-
 }

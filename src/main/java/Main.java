@@ -1,36 +1,18 @@
+import models.ListsOfTodos;
 import models.Todos;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import service.ListOfTodosService;
+import service.TodosService;
 
-import java.util.Arrays;
-import java.util.List;
+import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) {
-        SessionFactory sessionFactory;
+    public static void main(String[] args) throws SQLException {
+        TodosService service = new TodosService();
 
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        try {
-            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        service.getAll().forEach(todos -> System.out.println(todos));
 
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-
-            List<Todos> result = session.createQuery("from Todos", Todos.class).list();
-            System.out.println(result);
-
-            result.forEach(task -> {
-                System.out.println(task);
-            });
-
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
+        ListOfTodosService listService = new ListOfTodosService();
+        listService.getAll().forEach(todos -> System.out.println(todos));
 
 
     }

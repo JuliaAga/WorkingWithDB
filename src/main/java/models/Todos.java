@@ -1,9 +1,6 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "todos")
@@ -20,14 +17,19 @@ public class Todos {
     @Column(name = "isActive")
     boolean isActive;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "list_id", referencedColumnName = "list_id")
+    private ListsOfTodos listsOfTodos;
+
     public Todos() {
     }
 
-    public Todos(int todos_id, String title, String detail, boolean isActive) {
+    public Todos(int todos_id, String title, String detail, boolean isActive, ListsOfTodos listsOfTodos) {
         this.todos_id = todos_id;
         this.title = title;
         this.detail = detail;
         this.isActive = isActive;
+        this.listsOfTodos = listsOfTodos;
     }
 
     public int getTodos_id() {
@@ -62,6 +64,14 @@ public class Todos {
         isActive = active;
     }
 
+    public ListsOfTodos getListsOfTodos() {
+        return listsOfTodos;
+    }
+
+    public void setListsOfTodos(ListsOfTodos listsOfTodos) {
+        this.listsOfTodos = listsOfTodos;
+    }
+
     @Override
     public String toString() {
         return "Todos{" +
@@ -69,6 +79,7 @@ public class Todos {
                 ", title='" + title + '\'' +
                 ", detail='" + detail + '\'' +
                 ", isActive=" + isActive +
+                ", listsOfTodos=" + listsOfTodos +
                 '}';
     }
 }
